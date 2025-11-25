@@ -3,84 +3,213 @@
 
 #include <string>
 
+/**
+ * @class LoanCalculator
+ * @brief A simple loan calculator for computing loan balance, EMI, number of payments, and interest rates.
+ *
+ * This class supports calculating:
+ * - Loan balance after n payments
+ * - Monthly payment (EMI)
+ * - Number of payments required to pay off a loan
+ * - Original loan amount
+ * - Yearly interest rate (approximate)
+ * - Effective interest rate including fees
+ */
 class LoanCalculator
 {
 public:
-  LoanCalculator();
-  ~LoanCalculator() {}
+    /**
+     * @brief Constructs a new LoanCalculator object with default values.
+     */
+    LoanCalculator();
 
-  //
-  // Setters and Getters
-  //
+    /**
+     * @brief Destructor.
+     */
+    ~LoanCalculator() {}
 
-  // Total loan amount A
-  void setAmount(long double A);
-  long double getAmount() const { return amount_; }
+    // ================= Setters and Getters =================
 
-  // Initial down payment
-  void setInitialPayment(long double initialA);
-  long double getInitialPayment() const { return initialPayment_; }
+    /**
+     * @brief Set the total loan amount.
+     * @param A The principal loan amount.
+     */
+    void setAmount(long double A);
 
-  // Yearly interest rate i
-  void setInterest(long double i);
-  long double getInterest() const { return interest_; }
-  long double getPeriodicInterest() const { return interestPeriodic_; }
+    /**
+     * @brief Get the total loan amount.
+     * @return The principal loan amount.
+     */
+    long double getAmount() const;
 
-  void setPayment(long double P);
-  long double getPayment() const { return payment_; }
+    /**
+     * @brief Set the initial down payment for the loan.
+     * @param initialA The initial payment amount.
+     */
+    void setInitialPayment(long double initialA);
 
-  void setPeriodTotal(long double N);
-  long double getPeriodTotal() const { return periodTotal_; }
+    /**
+     * @brief Get the initial down payment.
+     * @return The initial payment amount.
+     */
+    long double getInitialPayment() const;
 
-  void setPeriodElapsed(long double n);
-  long double getPeriodElapsed() const { return periodElapsed_; }
+    /**
+     * @brief Set the yearly interest rate.
+     * @param i Yearly interest rate in percent (e.g., 6.75).
+     *
+     * Internally, the monthly interest will be calculated as i / 12 / 100.
+     */
+    void setInterest(long double i);
 
-  void setOpeningFee(long double fee);
-  long double getOpeningFee() const { return openingFee_; }
+    /**
+     * @brief Get the yearly interest rate.
+     * @return Yearly interest rate in percent.
+     */
+    long double getInterest() const;
 
-  void setOpeningPercent(long double percent);
-  long double getOpeningPercent() const { return openingPercent_; }
+    /**
+     * @brief Get the monthly periodic interest rate.
+     * @return Monthly interest as decimal (e.g., 0.0056 for 6.75% yearly).
+     */
+    long double getPeriodicInterest() const;
 
-  inline void reset() {
-    amount_ = initialPayment_ = interest_ = interestPeriodic_ = payment_ = openingFee_ = openingPercent_ = 0.0L;
-    periodTotal_ = periodElapsed_ = 0.0L;
-    amountSet_ = interestSet_ = paymentSet_ = periodTotalSet_ = periodElapsedSet_ = false;
-  }
+    /**
+     * @brief Set the monthly payment (EMI).
+     * @param P Monthly payment amount.
+     */
+    void setPayment(long double P);
 
-  //
-  // The actual calculation methods
-  //
-  long double calculateLoanBalance();
-  long double calculatePayment();
-  long double calculateNumberPayments();
-  long double calculateLoanAmount();
-  long double calculateInterestRate();
-  long double calculateEffectiveInterestRate();
+    /**
+     * @brief Get the monthly payment (EMI).
+     * @return Monthly payment amount.
+     */
+    long double getPayment() const;
 
-  std::string toString();
+    /**
+     * @brief Set the total number of payment periods.
+     * @param N Total loan period in months.
+     */
+    void setPeriodTotal(int N);
+
+    /**
+     * @brief Get the total number of payment periods.
+     * @return Total loan period in months.
+     */
+    int getPeriodTotal() const;
+
+    /**
+     * @brief Set the number of elapsed payment periods.
+     * @param n Number of months elapsed.
+     */
+    void setPeriodElapsed(int n);
+
+    /**
+     * @brief Get the number of elapsed payment periods.
+     * @return Number of months elapsed.
+     */
+    int getPeriodElapsed() const;
+
+    /**
+     * @brief Set a fixed fee charged when opening the loan.
+     * @param fee Opening fee amount.
+     */
+    void setOpeningFee(long double fee);
+
+    /**
+     * @brief Get the fixed opening fee.
+     * @return Opening fee amount.
+     */
+    long double getOpeningFee() const;
+
+    /**
+     * @brief Set a percentage-based fee for opening the loan.
+     * @param percent Percentage of loan amount as opening fee.
+     */
+    void setOpeningPercent(long double percent);
+
+    /**
+     * @brief Get the percentage-based opening fee.
+     * @return Opening fee percentage.
+     */
+    long double getOpeningPercent() const;
+
+    /**
+     * @brief Reset all loan parameters to zero/defaults.
+     */
+    void reset();
+
+    // ================= Calculation Methods =================
+
+    /**
+     * @brief Calculate the loan balance after n payments.
+     * @return Remaining loan balance.
+     * @throws std::invalid_argument if required parameters are not set.
+     */
+    long double calculateLoanBalance();
+
+    /**
+     * @brief Calculate the monthly payment (EMI).
+     * @return Monthly payment amount.
+     * @throws std::invalid_argument if required parameters are not set.
+     */
+    long double calculatePayment();
+
+    /**
+     * @brief Calculate the number of payments needed to pay off the loan.
+     * @return Number of payments.
+     * @throws std::invalid_argument if required parameters are not set.
+     */
+    long double calculateNumberPayments();
+
+    /**
+     * @brief Calculate the original loan amount given payment, interest, and total period.
+     * @return Loan amount.
+     * @throws std::invalid_argument if required parameters are not set.
+     */
+    long double calculateLoanAmount();
+
+    /**
+     * @brief Estimate the yearly interest rate given amount, payment, and total period.
+     * @return Yearly interest rate in percent.
+     * @throws std::invalid_argument if required parameters are not set.
+     */
+    long double calculateInterestRate();
+
+    /**
+     * @brief Calculate effective interest rate including opening fees.
+     * @return Effective yearly interest rate in percent.
+     * @throws std::invalid_argument if required parameters are not set.
+     */
+    long double calculateEffectiveInterestRate();
+
+    /**
+     * @brief Return a string summary of all loan parameters.
+     * @return Formatted loan details as a string.
+     */
+    std::string toString();
 
 private:
-  long double amount_;        // loan amount
-  bool amountSet_;
+    long double amount_;        ///< Loan amount
+    bool amountSet_;            ///< Flag if amount is set
 
-  long double initialPayment_;     // initial down payment
+    long double initialPayment_; ///< Initial down payment
 
-  long double interest_;          // interest rate, something like 6.75
-  long double interestPeriodic_;  // monthly interest rate
-  bool interestSet_;
+    long double interest_;        ///< Yearly interest rate in percent
+    long double interestPeriodic_;///< Monthly periodic interest rate
+    bool interestSet_;            ///< Flag if interest is set
 
-  long double payment_;       // payment amount
-  bool paymentSet_;
+    long double payment_;        ///< Monthly payment
+    bool paymentSet_;            ///< Flag if payment is set
 
-  long double periodTotal_;     // total payment periods
-  bool periodTotalSet_;
+    int periodTotal_;            ///< Total number of months
+    bool periodTotalSet_;        ///< Flag if total period is set
 
-  long double periodElapsed_;   // number of elapsed payment periods
-  bool periodElapsedSet_;
+    int periodElapsed_;          ///< Number of elapsed months
+    bool periodElapsedSet_;      ///< Flag if elapsed period is set
 
-  // Fees
-  long double openingFee_;
-  long double openingPercent_;
+    long double openingFee_;     ///< Fixed opening fee
+    long double openingPercent_; ///< Opening fee as percentage
 };
 
 #endif // LOANCALCULATOR_H_INCLUDED
