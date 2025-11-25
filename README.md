@@ -12,5 +12,5 @@ A simple loan calculator application using C++ and Qt.
 Enter loan details and click calculate.
 
 ## Author
-Zaim Ahmed Siddiqui
-Waqar Wali Khan
+Zaim Ahmed Siddiqui ,
+Muhammad Waqar Wali Khan
