@@ -1,48 +1,16 @@
-# Legacy Loan Calculator (Refactored Version)
+# Loan Calculator
 
-## Requirements
-- g++ compiler (MinGW or Linux g++)
-- Git installed
-- Doxygen (for documentation)
-- GoogleTest (for unit testing)
-- A terminal or Git Bash
+## Description
+A simple loan calculator application using C++ and Qt.
 
-## How to Build
-To compile the program, open Git Bash or terminal in the project folder and run:
+## Installation
+1. Clone the repo
+2. Open the project in Qt Creator
+3. Build and run
 
-g++ -std=c++11 src/*.cpp -o calc
+## Usage
+Enter loan details and click calculate.
 
-This will produce an executable file named "calc".
-
-## How to Run
-Run the program using:
-
-./calc -cp -a 100000 -i 12 -n 360
-
-Where:
-- `-a` = loan amount
-- `-i` = interest rate
-- `-n` = number of months
-
-Example:
-./calc -cp -a 200000 -i 10 -n 240
-
-## Project Structure
-legacy-calc-2009/
-│── src/
-│   ├── main.cpp
-│   ├── Loan.h
-│   └── Loan.cpp
-│── test/
-│   └── test_emi.cpp
-│── config.txt
-│── docs/
-│── Doxyfile
-│── README.md
-│── REPORT.pdf
-
-## Contributors
-- Zaim Ahmed Siddiqui
-- Muhammad Waqar Wali Khan
-
-
+## Author
+Zaim Ahmed Siddiqui
+Waqar Wali Khan
